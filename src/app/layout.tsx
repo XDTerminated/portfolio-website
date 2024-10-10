@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 
 import { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -76,7 +75,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
                         <Footer />
                     </div>
                 </ThemeProvider>
-                <Script strategy="afterInteractive" data-goatcounter="https://redpangilinan.goatcounter.com/count" src="//gc.zgo.at/count.js" />
             </body>
         </html>
     );

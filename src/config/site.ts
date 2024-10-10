@@ -10,8 +10,7 @@ export const siteConfig: SiteConfig = {
     ogImage: `${env.NEXT_PUBLIC_APP_URL}/og.png`,
     links: {
         github: "https://github.com/XDTerminated",
-        facebook: "https://facebook.com/redpangilinan15",
-        twitter: "https://twitter.com/_rdev7",
-        linkedin: "https://www.linkedin.com/in/jan-reynald-pangilinan",
+        linkedin: "https://www.linkedin.com/in/sayam-g/",
+        leetcode: "https://leetcode.com/u/Hackez/",
     },
 };
