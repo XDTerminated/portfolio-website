@@ -1,7 +1,17 @@
-import { DiscordApiResponse, Status } from "@/types";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { BsDiscord } from "react-icons/bs";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+interface DiscordApiResponse {
+    data: {
+        discord_status: Status;
+        discord_user: {
+            id: string;
+            avatar: string;
+        };
+    };
+}
+
+type Status = "online" | "offline" | "idle" | "dnd";
 
 export function DiscordStatus(data: DiscordApiResponse) {
     const status = (status: Status) => {
@@ -23,12 +33,11 @@ export function DiscordStatus(data: DiscordApiResponse) {
                 <div className="flex items-center justify-center">
                     <Avatar>
                         <AvatarImage src={`https://cdn.discordapp.com/avatars/${data.data.discord_user.id}/${data.data.discord_user.avatar}`} />
-                        <AvatarFallback>R</AvatarFallback>
                     </Avatar>
                 </div>
                 <div>
-                    <div className="text-lg font-bold">{data.data.discord_user.global_name}</div>
-                    <p className="text-xs text-muted-foreground">{data.data.discord_user.username}</p>
+                    <div className="text-lg font-bold">{data.data.discord_user.id}</div>
+                    <p className="text-xs text-muted-foreground">Discord User</p>
                 </div>
             </div>
             <div className="flex items-center gap-2" style={{ color: statusInfo.color }}>

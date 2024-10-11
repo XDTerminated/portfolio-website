@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-
 import { siteConfig } from "@/config/site";
-
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function Navbar() {
     const [navbar, setNavbar] = useState(false);
