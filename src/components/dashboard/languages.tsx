@@ -11,7 +11,18 @@ interface LanguagesProps {
 }
 
 export function Languages({ languages }: LanguagesProps) {
-    const data = languages.slice(0, 10);
+    // Filter out languages with 0 time
+    const filteredLanguages = languages.filter((lang) => lang.minutes > 0);
+
+    // Separate the "Other" category and sort remaining by hours
+    const otherLanguage = filteredLanguages.find((lang) => lang.name === "Other");
+    const sortedLanguages = filteredLanguages
+        .filter((lang) => lang.name !== "Other")
+        .sort((a, b) => b.hours - a.hours)
+        .slice(0, 10); // Sort by hours in descending order
+
+    // Add "Other" at the end if it exists
+    const data = otherLanguage ? [...sortedLanguages, otherLanguage] : sortedLanguages;
 
     return (
         <Card className="w-full">
@@ -21,7 +32,7 @@ export function Languages({ languages }: LanguagesProps) {
             <CardContent className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-0">
                 <ResponsiveContainer width="100%" height={250}>
                     <PieChart>
-                        <Pie data={data} cx="50%" cy="50%" innerRadius={50} outerRadius={100} paddingAngle={0} strokeWidth={0} dataKey="hours">
+                        <Pie data={data} cx="50%" cy="50%" innerRadius={50} outerRadius={100} paddingAngle={0} strokeWidth={0} dataKey="minutes">
                             {data.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={languageColors[entry.name] || "#1f9aef"} />
                             ))}
