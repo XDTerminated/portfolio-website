@@ -1,9 +1,8 @@
 import wretch from "wretch";
-
 import { env } from "../utils";
 
 // Instantiate and configure wretch
-const api = wretch("https://wakatime.com", { cache: "no-store" })
+const api = wretch("https://wakatime.com")
     .errorType("json")
     .resolve((r) => r.json());
 
