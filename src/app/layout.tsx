@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         ],
     },
     icons: {
-        icon: "../../public/favicon.ico",
+        icon: "", // TODO
     },
 };
 
