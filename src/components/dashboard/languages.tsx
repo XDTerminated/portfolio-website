@@ -27,7 +27,7 @@ export function Languages({ languages }: LanguagesProps) {
               cy="50%"
               innerRadius={50}
               outerRadius={100}
-              paddingAngle={3}
+              paddingAngle={0}
               strokeWidth={0}
               dataKey="hours"
             >

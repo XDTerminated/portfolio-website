@@ -24,8 +24,6 @@ export function SpotifyCard() {
   )
   const trackId = data?.data?.spotify?.track_id
 
-  const albumArtUrl = data?.data.spotify.album_art_url || '/default-image.png';
-
 
   if (isLoading) {
     return (
@@ -63,7 +61,7 @@ export function SpotifyCard() {
         <Tooltip>
           <TooltipTrigger>
           <Image
-            src={albumArtUrl}
+            src={data?.data.spotify?.album_art_url || ""}
             width={120}
             height={120}
             alt="Activity image"
