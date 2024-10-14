@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     "shadcn/ui",
     "React Query",
     "Portfolio",
+    "Sayam Portfolio",
+    "Sayam",
+    "Sayam Gupta",
+    "Sayam Gupta Portfolio",
   ],
   authors: [
     {
