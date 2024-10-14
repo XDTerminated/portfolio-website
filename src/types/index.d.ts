@@ -9,6 +9,7 @@ export type SiteConfig = {
         github: string;
         linkedin: string;
         leetcode: string;
+        chess: string;
     };
 };
 

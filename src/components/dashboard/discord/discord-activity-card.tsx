@@ -5,6 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ElapsedTime } from "@/components/timer/elapsed-time";
 import { ProgressBar } from "@/components/timer/progress-bar";
+import Image from "next/image";
 
 interface DiscordActivityCardProps {
     activity: Activity;
@@ -18,11 +19,11 @@ export function DiscordActivityCard({ activity, data }: DiscordActivityCardProps
                 <Tooltip>
                     <TooltipTrigger>
                         {activity.assets && activity.assets.large_image && activity.assets.large_image.startsWith("spotify:") ? (
-                            <img src={data.data.spotify.album_art_url} width={90} height={90} alt="Activity image" className="rounded" />
+                            <Image src={data.data.spotify.album_art_url} width={90} height={90} alt="Activity image" className="rounded" />
                         ) : activity.assets && activity.application_id ? (
-                            <img src={`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp?size=512`} width={90} height={90} alt="Activity image" className="rounded" />
+                            <Image src={`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp?size=512`} width={90} height={90} alt="Activity image" className="rounded" />
                         ) : activity.application_id ? (
-                            <img src={`https://dcdn.dstn.to/app-icons/${activity.application_id}.webp?size=512`} width={90} height={90} alt="Activity image" className="rounded" />
+                            <Image src={`https://dcdn.dstn.to/app-icons/${activity.application_id}.webp?size=512`} width={90} height={90} alt="Activity image" className="rounded" />
                         ) : (
                             <div
                                 className="flex items-center justify-center"

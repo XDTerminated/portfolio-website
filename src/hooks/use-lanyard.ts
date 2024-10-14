@@ -16,10 +16,6 @@ export const useLanyard = () => {
     const userId = env.NEXT_PUBLIC_DISCORD_ID;
     const socketUrl = "wss://api.lanyard.rest/socket";
 
-    const initMessage = () => {
-        sendMessage(JSON.stringify({ op: 2, d: { subscribe_to_ids: [userId] } }));
-    };
-
     const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: () => {
             initMessage();
@@ -27,34 +23,41 @@ export const useLanyard = () => {
         shouldReconnect: () => true,
     });
 
+    const initMessage = React.useCallback(() => {
+        sendMessage(JSON.stringify({ op: 2, d: { subscribe_to_ids: [userId] } }));
+    }, [sendMessage, userId]);
+
+    const handleEvent = React.useCallback(
+        (messageData: MessageData) => {
+            const eventData = messageData.d;
+            switch (messageData.t) {
+                case "INIT_STATE":
+                    setData({ data: eventData && eventData[userId] });
+                    setIsLoading(false);
+                    break;
+                case "PRESENCE_UPDATE":
+                    setData({ data: eventData });
+                    setIsLoading(false);
+                    break;
+                default:
+                    break;
+            }
+        },
+        [userId]
+    );
+
     React.useEffect(() => {
         if (readyState === ReadyState.OPEN) {
             initMessage();
         }
-    }, [readyState, userId, sendMessage]);
-
-    const handleEvent = (messageData: MessageData) => {
-        const eventData = messageData.d;
-        switch (messageData.t) {
-            case "INIT_STATE":
-                setData({ data: eventData && eventData[userId] });
-                setIsLoading(false);
-                break;
-            case "PRESENCE_UPDATE":
-                setData({ data: eventData });
-                setIsLoading(false);
-                break;
-            default:
-                break;
-        }
-    };
+    }, [readyState, initMessage]);
 
     React.useEffect(() => {
         if (lastMessage) {
-            const messageData = JSON.parse(lastMessage.data);
+            const messageData: MessageData = JSON.parse(lastMessage.data);
             handleEvent(messageData);
         }
-    }, [lastMessage]);
+    }, [lastMessage, handleEvent]);
 
     return { data, isLoading, readyState };
 };

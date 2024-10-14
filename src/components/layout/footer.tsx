@@ -5,7 +5,7 @@ export default function Footer() {
         <footer className="mt-auto block px-4 pb-2 pt-4 text-sm text-zinc-500 dark:text-zinc-400">
             © {new Date().getFullYear()}{" "}
             <a target="_blank" href={siteConfig.links.github} className="underline">
-                XDTerminated
+                Red Pangilinan
             </a>
             . All Rights Reserved.
         </footer>
