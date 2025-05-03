@@ -1,103 +1,75 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useLanyard } from "@/hooks/use-lanyard"
-import { Activity } from "@/types"
+import * as React from "react";
+import { useLanyard } from "@/hooks/use-lanyard";
+import { Activity } from "@/types";
 
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import { DiscordActivityCard } from "./discord-activity-card"
+import { DiscordActivityCard } from "./discord-activity-card";
 
 export function DiscordActivity() {
-  const { data } = useLanyard()
+    const { data, isLoading } = useLanyard();
 
-  return (
-    <>
-      {!data ? (
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-2">
-            <Skeleton className="h-10 w-10 rounded-full" />
-            <Skeleton className="h-10 w-28 md:w-[14rem]" />
-          </div>
-          <Skeleton className="h-8 w-full" />
-        </div>
-      ) : (
-        <>
-          {data.data ? (
-            <>
-              {/* Display no activities */}
-              <div className="flex flex-grow flex-col gap-2">
-                {!data ||
-                !data.data ||
-                !data.data.activities ||
-                data.data.activities.length === 0 ? (
-                  <Alert className="border-none bg-muted">
-                    <AlertDescription>
-                      No activities currently.
-                    </AlertDescription>
-                  </Alert>
-                ) : (
-                  <>
-                    {/* Render custom status with no other activities */}
-                    {data.data.activities.length === 1 &&
-                    data.data.activities[0].name === "Custom Status" ? (
-                      <>
-                        {data?.data?.activities?.map(
-                          (activity: Activity, index: number) =>
-                            activity.name === "Custom Status" && (
-                              <p
-                                key={`custom-status-${index}`} // Add key here
-                                className="text-sm text-muted-foreground"
-                              >
-                                {activity.state}
-                              </p>
-                            )
-                        )}
-                        <Alert className="border-none bg-muted">
-                          <AlertDescription>
-                            No activities currently.
-                          </AlertDescription>
-                        </Alert>
-                      </>
-                    ) : (
-                      <>
-                        {/* Render custom status including other activities */}
-                        {data?.data?.activities?.map(
-                          (activity: Activity, index: number) =>
-                            activity.name === "Custom Status" && (
-                              <p
-                                key={`custom-status-${index}`} // Add key here
-                                className="text-sm text-muted-foreground"
-                              >
-                                {activity.state}
-                              </p>
-                            )
-                        )}
-                        {data?.data?.activities?.map(
-                          (activity: Activity, index: number) =>
-                            activity.name !== "Custom Status" && (
-                              <DiscordActivityCard
-                                key={`activity-${index}`} // Add key here
-                                activity={activity}
-                                data={data}
-                              />
-                            )
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
-            </>
-          ) : (
-            <div className="flex gap-2">
-              <Skeleton className="h-10 w-10 rounded-full" />
-              <Skeleton className="h-10 w-28 md:w-[14rem]" />
+    // Handle loading state
+    if (isLoading) {
+        return (
+            <div className="flex flex-col gap-4">
+                {/* Skeleton for one activity card - simplified as status is removed */}
+                <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
+                        <Skeleton className="h-[90px] w-[90px] rounded" />
+                        <div className="flex flex-col gap-1">
+                            <Skeleton className="h-5 w-32" />
+                            <Skeleton className="h-4 w-48" />
+                            <Skeleton className="h-4 w-40" />
+                        </div>
+                    </div>
+                </div>
             </div>
-          )}
-        </>
-      )}
-    </>
-  )
+        );
+    }
+
+    // Handle error or no data state
+    if (!data?.data) {
+        return (
+            <div className="flex flex-col gap-4">
+                <Alert className="border-none bg-muted">
+                    <AlertDescription>Could not load activity data.</AlertDescription>
+                </Alert>
+            </div>
+        );
+    }
+
+    const { activities } = data.data;
+    const customStatus = activities.find((activity: Activity) => activity.type === 4);
+    const otherActivities = activities.filter((activity: Activity) => activity.type !== 4);
+
+    // Filter out Spotify activity if Spotify data exists, to avoid duplication if SpotifyCard is used separately
+    const nonSpotifyActivities = otherActivities.filter((activity) => !(activity.name === "Spotify" && data.data.spotify));
+
+    return (
+        <div className="flex flex-col gap-4">
+            {/* DiscordStatus removed */}
+
+            {/* Display Custom Status if available */}
+            {customStatus && customStatus.state && <p className="text-sm text-muted-foreground">{customStatus.state}</p>}
+
+            {/* Display other non-Spotify activities */}
+            {nonSpotifyActivities.length > 0 ? (
+                nonSpotifyActivities.map((activity: Activity, index: number) => (
+                    <DiscordActivityCard
+                        key={`activity-${activity.id || index}`}
+                        activity={activity}
+                        data={data} // Pass the full response here
+                    />
+                ))
+            ) : customStatus ? null : ( // If no other activities and no custom status, show message
+                <Alert className="border-none bg-muted">
+                    <AlertDescription>No current activities.</AlertDescription>
+                </Alert>
+            )}
+        </div>
+    );
 }

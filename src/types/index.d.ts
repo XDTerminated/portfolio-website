@@ -48,6 +48,8 @@ type DiscordUser = {
 type Status = string | "online" | "offline" | "idle" | "dnd";
 
 type Activity = {
+    id: string; // Add id
+    type: number; // Add type
     name: string;
     state?: string;
     details?: string;
@@ -67,8 +69,15 @@ type Activity = {
 type DiscordApiContent = {
     spotify: {
         track_id: string;
+        timestamps?: {
+            start?: number;
+            end?: number;
+        };
+        album?: string;
         album_art_url: string;
-    };
+        artist?: string;
+        song?: string;
+    } | null;
     discord_user: DiscordUser;
     activities: Activity[];
     discord_status: string;

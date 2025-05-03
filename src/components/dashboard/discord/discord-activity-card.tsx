@@ -18,7 +18,7 @@ export function DiscordActivityCard({ activity, data }: DiscordActivityCardProps
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger>
-                        {activity.assets && activity.assets.large_image && activity.assets.large_image.startsWith("spotify:") ? (
+                        {activity.assets && activity.assets.large_image && activity.assets.large_image.startsWith("spotify:") && data.data.spotify ? (
                             <Image src={data.data.spotify.album_art_url} width={90} height={90} alt="Activity image" className="rounded" />
                         ) : activity.assets && activity.application_id ? (
                             <Image src={`https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.webp?size=512`} width={90} height={90} alt="Activity image" className="rounded" />
