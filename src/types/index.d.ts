@@ -10,6 +10,8 @@ export type SiteConfig = {
         linkedin: string;
         leetcode: string;
         chess: string;
+        devpost: string;
+        resume: string;
     };
 };
 

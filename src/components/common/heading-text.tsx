@@ -5,12 +5,12 @@ interface HeadingProps {
 
 export function HeadingText({ children, subtext }: HeadingProps) {
   return (
-    <div>
-      <h1 className="text-lg font-semibold">{children}</h1>
+    <div className="space-y-0.5">
+      <h2 className="font-display text-xl font-medium tracking-tight text-foreground">
+        {children}
+      </h2>
       {subtext && (
-        <h2 className="font-light text-zinc-500 dark:text-zinc-400">
-          {subtext}
-        </h2>
+        <p className="text-sm text-muted-foreground">{subtext}</p>
       )}
     </div>
   )

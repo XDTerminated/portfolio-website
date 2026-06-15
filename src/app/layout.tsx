@@ -1,15 +1,12 @@
 import "@/styles/globals.css"
 
 import { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
 
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import Footer from "@/components/layout/footer"
 import Navbar from "@/components/layout/navbar"
+import { Sidebar } from "@/components/layout/sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: {
@@ -61,7 +58,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
   ],
 }
 
@@ -72,17 +69,30 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={cn(
-          "bg-background text-zinc-800 antialiased dark:text-zinc-200",
-          inter.className
+          "bg-background font-sans text-zinc-700 antialiased dark:text-zinc-300"
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <div className="flex min-h-screen flex-col px-4 py-4 md:container md:w-[45rem] md:px-0 md:py-8">
-            <Navbar />
-            {children}
-            <Footer />
+          <div className="mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-6 py-10 md:flex-row md:gap-14 md:px-10 md:py-14">
+            <Sidebar />
+            <div className="flex flex-1 flex-col gap-6">
+              <Navbar />
+              {children}
+            </div>
           </div>
         </ThemeProvider>
       </body>

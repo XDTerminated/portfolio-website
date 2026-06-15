@@ -2,12 +2,16 @@ import { siteConfig } from "@/config/site";
 
 export default function Footer() {
     return (
-        <footer className="mt-auto block px-4 pb-2 pt-4 text-sm text-zinc-500 dark:text-zinc-400">
-            © {new Date().getFullYear()}{" "}
-            <a target="_blank" href={siteConfig.links.github} className="underline">
-                Sayam Gupta
+        <footer className="mt-auto flex items-center justify-between gap-2 pt-16 font-mono text-xs text-muted-foreground">
+            <a
+                target="_blank"
+                href={siteConfig.links.github}
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+            >
+                © {new Date().getFullYear()} Sayam Gupta
             </a>
-            . All Rights Reserved.
+            <span>v1.0.0</span>
         </footer>
     );
 }
